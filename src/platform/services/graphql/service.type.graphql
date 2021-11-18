@@ -1,0 +1,46 @@
+type PlatformService {
+  id: Int!
+  title_en: String!
+  title_th: String!
+  title_jp: String!
+  title_kr: String!
+  description_en: String!
+  description_th: String!
+  description_jp: String!
+  description_kr: String!
+  vehicle_title: String
+  vehicle_code: String
+  icon: String
+  price_per_hour: Float
+  fixed_price: Float
+  country: Country!
+  third_party_provider: String!
+  type: ServiceType!
+  frequency: ServiceFrequency!
+  max_weight: Float
+  weight_unit: String
+  size_from: String
+  created_at: Date!
+  updated_at: Date!
+  status: ServiceStatus
+}
+
+type ServicesResp {
+  page_info: PageInfo!
+  edges: [PlatformService!]!
+}
+
+input ServiceStatusFilter {
+  _eq: ServiceStatus
+  _in: [ServiceStatus!]
+}
+
+input ServiceFilter {
+  country: CountryFilter
+  status: ServiceStatusFilter
+  country_id: EntityIdFilter
+}
+
+type Query {
+  services(pagination: Pagination!, where: ServiceFilter): ServicesResp!
+}

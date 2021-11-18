@@ -1,0 +1,19 @@
+type OrderPickUpService {
+  id: Int!
+  address: String!
+  lat: Float!
+  lng: Float!
+  pickup_time: Date!
+  amount: Float!
+  discount_amount: Float!
+  mover_count: Int
+  tax_amount: Float!
+  total_amount: Float!
+  currency: String!
+  currency_sign: String!
+  service: PlatformService!
+  created_at: Date!
+  updated_at: Date!
+  third_party_tracking_id: String
+  driver: Driver
+}

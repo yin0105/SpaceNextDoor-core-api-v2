@@ -1,0 +1,10 @@
+type Customer {
+  id: Int!
+  stripe_customer_id: String
+  card_last_digits: String
+  card_brand_name: String
+  card_holder_name: String
+  updated_by: Int!
+  created_at: Date!
+  updated_at: Date!
+}

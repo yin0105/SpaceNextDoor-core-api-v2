@@ -1,0 +1,18 @@
+enum ProviderType {
+  BUSINESS
+  INDIVIDUAL
+}
+
+enum SiteStatus {
+  DRAFT
+  REJECTED
+  READY_TO_REVIEW
+  ACTIVE
+  INACTIVE
+}
+
+enum StockManagementType {
+  THIRD_PARTY
+  SND
+  AFFILIATE
+}

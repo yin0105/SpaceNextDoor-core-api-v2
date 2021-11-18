@@ -1,0 +1,35 @@
+type PlatformInsurance {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  country: Country!
+  covered_amount: Int!
+  price_per_day: Float!
+  third_party_provider: String!
+  created_at: Date!
+  updated_at: Date!
+}
+
+input InsuranceSort {
+  covered_amount: SortBy
+}
+
+type InsurancesResp {
+  page_info: PageInfo!
+  edges: [PlatformInsurance!]!
+}
+
+input InsuranceFilter {
+  country: CountryFilter
+  country_id: EntityIdFilter
+}
+
+type Query {
+  insurances(
+    pagination: Pagination!,
+    sort_by: InsuranceSort,
+    where: InsuranceFilter
+  ): InsurancesResp!
+}

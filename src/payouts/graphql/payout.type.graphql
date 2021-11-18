@@ -1,0 +1,30 @@
+type Payout {
+  id: Int!
+  amount: Float!
+  commission_percentage: Int!
+  status: PayoutStatus!
+  currency: String!
+  created_at: Date!
+  updated_at: Date!
+}
+
+input UpdatePayoutPayload {
+  status: PayoutStatus!
+}
+
+input UpdatePayoutFilter {
+  id: PayoutIdFilter!
+}
+
+input PayoutIdFilter {
+  _eq: Int!
+}
+
+type UpdatePayoutResp {
+  edges: [Payout!]!
+  modified: Int!
+}
+
+type Mutation {
+  updatePayout(payload: UpdatePayoutPayload! where: UpdatePayoutFilter! ): UpdatePayoutResp!
+}

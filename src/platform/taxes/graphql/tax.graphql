@@ -1,0 +1,30 @@
+enum TaxType {
+  PERCENTAGE
+  ABSOLUTE
+}
+
+enum TaxEntityType {
+  SITE
+  SERVICE
+  INSURANCE
+}
+
+type PlatformTax {
+  id: Int!
+  name_en: String!
+  name_th: String
+  name_jp: String
+  name_kr: String
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  type: TaxType!
+  value: Int!
+  country: Country!
+  city: City
+  exemptible: Boolean!
+  is_default: Boolean!
+  entity_type: TaxEntityType!
+  is_active: Boolean!
+}

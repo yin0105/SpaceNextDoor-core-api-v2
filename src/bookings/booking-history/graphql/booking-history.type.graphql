@@ -1,0 +1,17 @@
+type BookingHistory {
+  id: Int!
+  status: String!
+  note: String!
+  created_at: Date!
+  updated_at: Date!
+  old_base_amount: Float
+  old_deposit: Float
+  new_deposit: Float
+  base_amount: Float
+  old_insurance_id: Int
+  insurance_id: Int
+  old_space_id: Int
+  new_space_id: Int
+  promotion_id: Int
+  public_promotion_id: Int
+}

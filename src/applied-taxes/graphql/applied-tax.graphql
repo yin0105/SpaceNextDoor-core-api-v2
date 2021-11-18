@@ -1,0 +1,15 @@
+type AppliedTax {
+  id: Int!
+  name_en: String!
+  name_th: String
+  name_jp: String
+  name_kr: String
+  type: TaxType!
+  value: Int!
+  tax: PlatformTax!
+  tax_amount: Float!
+  country: Country!
+  city: City
+  is_default: Boolean!
+  entity_type: TaxEntityType!
+}

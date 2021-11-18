@@ -1,0 +1,6 @@
+enum VehicleType {
+  VAN,
+  LORRY10,
+  LORRY14,
+  LORRY24,
+}

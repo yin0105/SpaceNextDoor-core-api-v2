@@ -1,0 +1,14 @@
+enum SpaceStatus {
+  ACTIVE
+  IN_ACTIVE
+  ARCHIVED
+  REJECTED 
+  READY_TO_REVIEW
+  DRAFT
+}
+
+enum StockManagementType {
+  THIRD_PARTY
+  SND
+  AFFILIATE
+}

@@ -1,0 +1,17 @@
+enum PriceType {
+  BASE_PRICE
+  DISCOUNTED_PRICE
+}
+
+type SpacePrice {
+  id: Int!
+  price_per_day: Float
+  price_per_week: Float
+  price_per_month: Float
+  price_per_year: Float
+  currency: String!
+  currency_sign: String!
+  type: PriceType!
+  start_date: Date
+  end_date: Date
+}

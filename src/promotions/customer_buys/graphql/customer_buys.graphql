@@ -1,0 +1,19 @@
+enum PromotionBuyTypes {
+  MIN_DAYS
+  MIN_PRICE
+}
+
+type CustomerBuys {
+  id: Int!
+  type: PromotionBuyTypes!
+  value: Int!
+  site_ids: [Int!]
+  country_id: Int
+}
+
+input CustomerBuysInput {
+  type: PromotionBuyTypes!
+  value: Int!
+  site_ids: [Int!]
+  country_id: Int
+}

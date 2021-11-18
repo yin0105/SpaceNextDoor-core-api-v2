@@ -1,0 +1,10 @@
+type Provider {
+  id: Int!
+  tax_id: String
+  bank_account_number: String
+  bank_account_holder_name: String
+  bank: PlatformBank
+  updated_by: Int!
+  created_at: Date!
+  updated_at: Date!
+}

@@ -1,0 +1,9 @@
+type PlatformPolicy {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  type: PolicyType!
+  days: Int!
+}

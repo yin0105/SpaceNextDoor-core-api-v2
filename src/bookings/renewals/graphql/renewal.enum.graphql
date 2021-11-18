@@ -1,0 +1,17 @@
+enum RenewalStatus {
+  PAID,
+  UN_PAID,
+  FAILED
+}
+
+enum RenewalType {
+  BOOKING,
+  FULL_SUBSCRIPTION,
+  PARTIAL_SUBSCRIPTION
+}
+
+enum ReviewStatus {
+  SCHEDULED,
+  REMINDED,
+  REVIEWED
+}

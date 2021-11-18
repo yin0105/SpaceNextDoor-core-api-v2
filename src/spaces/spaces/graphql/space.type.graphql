@@ -1,0 +1,130 @@
+type Space {
+  id: Int!
+  name: String
+  site: Site!
+  size: Float!
+  height: Float!
+  width: Float!
+  length: Float!
+  size_unit: SpaceSizeUnit!
+  prices: [SpacePrice!]!
+  status: SpaceStatus!
+  total_units: Int!
+  available_units: Int
+  stock_available_until: Date
+  quotation: Quotation
+  stock_management_type: StockManagementType
+  images: [String!]
+  features: [PlatformFeature!]!
+  space_type: PlatformSpaceType
+}
+
+input SpacePayload {
+  name: String
+  height: Float!
+  width: Float!
+  length: Float!
+  size_unit: SpaceSizeUnit!
+  price_per_month: Float!
+  total_units: Int!
+  site_id: Int!
+  features_id: [Int!]!
+}
+
+input UpdateSpacePayload {
+  name: String
+  height: Float
+  width: Float
+  length: Float
+  size_unit: SpaceSizeUnit
+  price_per_month: Float
+  total_units: Int
+  images: [String!]
+  features_id: [Int!]
+}
+
+input SpaceMoveInDateFilter {
+  _eq: Date
+}
+
+input SpaceMoveOutDateFilter {
+  _eq: Date
+}
+
+input SpaceIdFilter {
+  _eq: Int!
+}
+
+input SpaceStatusFilter {
+  _eq: SpaceStatus
+}
+
+input UpdateSpaceFilter {
+  id: SpaceIdFilter!
+}
+
+input SpaceFilter {
+  id: SpaceIdFilter!
+}
+
+input SpacesSort {
+  price: SortBy
+}
+
+input AvailableUnitsFilter {
+  _gt: Int
+}
+
+input SpacesFilter {
+  id: SpaceIdFilter
+  site_id: SpaceIdFilter
+  status: SpaceStatusFilter
+  available_units: AvailableUnitsFilter
+  country: CountryFilter
+  quotation_uuid: String
+  """
+  Space Type Id
+  """
+  type_id: SpaceIdFilter
+  """
+  To get the total space units available
+  """
+  move_in_date: SpaceMoveInDateFilter
+  move_out_date: SpaceMoveOutDateFilter
+}
+
+input DeleteSpaceFilter {
+  id: SpaceIdFilter
+}
+
+type UpdateSpaceResp {
+  edges: [Space!]!
+  modified: Int!
+}
+
+type DeleteSpaceResp {
+  success: Boolean!
+}
+
+type SpacesResp {
+  page_info: PageInfo!
+  edges: [Space!]!
+}
+
+type Query {
+  space(where: SpaceFilter!): Space!
+  spaces(
+    pagination: Pagination!
+    where: SpacesFilter!
+    sort_by: SpacesSort
+  ): SpacesResp!
+}
+
+type Mutation {
+  createSpace(payload: SpacePayload!): Space!
+  updateSpace(
+    payload: UpdateSpacePayload!
+    where: UpdateSpaceFilter!
+  ): UpdateSpaceResp!
+  deleteSpace(where: DeleteSpaceFilter!): DeleteSpaceResp!
+}

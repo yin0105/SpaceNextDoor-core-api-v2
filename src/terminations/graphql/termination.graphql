@@ -1,0 +1,65 @@
+enum TerminationStatus {
+  REQUESTED
+  ON_HOLD
+  SCHEDULED
+  TERMINATED
+}
+
+enum TerminationPaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+type Termination {
+  id: Int!
+  move_out_date: Date!
+  termination_date: Date!
+  failed_renewals_amount: Float!
+  remaining_days_amount: Float!
+  unused_days_amount: Float!
+  notice_period_amount: Float!
+  promotion_amount: Float!
+  discount: Float!
+  total_amount: Float!
+  status: TerminationStatus!
+  payment_status: TerminationPaymentStatus!
+  currency: String!
+  currency_sign: String!
+  is_overdue: Boolean!
+  created_at: Date!
+  updated_at: Date!
+}
+
+type CalculateTerminationDuesResp {
+  move_out_date: Date!
+  termination_date: Date!
+  failed_renewals_amount: Float!
+  remaining_days_amount: Float!
+  notice_period_amount: Float!
+  promotion_amount: Float!
+  total_amount: Float!
+  currency: String!
+  currency_sign: String!
+}
+
+input TerminationPayload {
+  move_out_date: Date!
+  booking_id: Int!
+}
+
+input PayTerminationPayload {
+  termination_id: Int!
+}
+
+type PayTerminationResp {
+  success: Boolean!
+}
+
+type Mutation {
+  calculateTerminationDues(
+    payload: TerminationPayload!
+  ): CalculateTerminationDuesResp!
+  requestTermination(payload: TerminationPayload!): Termination!
+  payTerminationAmount(payload: PayTerminationPayload!): PayTerminationResp!
+}

@@ -1,0 +1,103 @@
+enum FixedCountry {
+  Singapore
+  Thailand
+  Japan
+  Korea
+}
+
+type Country {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  code: String!
+  currency: String!
+  currency_sign: String!
+  cities: [City!]!
+}
+
+type City {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  districts: [District!]!
+}
+
+type LocationCountry {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+}
+
+type LocationCity {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+}
+
+type District {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+}
+
+type LocationLandmark {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+}
+
+type Location {
+  country: LocationCountry!
+  city: LocationCity!
+  district: District
+  landmark: LocationLandmark
+}
+
+type CountriesResp {
+  page_info: PageInfo!
+  edges: [Country!]!
+}
+
+type LocationsResp {
+  edges: [Location!]!
+}
+
+input LocationsSort {
+  name: SortBy
+}
+
+input CountryFilter {
+  _eq: FixedCountry!
+}
+
+input CountriesFilter {
+  country: CountryFilter!
+}
+
+input LocationFilter {
+  country: CountryFilter!
+  name: StringFilter
+}
+
+type Query {
+  countries(
+    pagination: Pagination!
+    where: CountriesFilter
+  ): CountriesResp!
+  locations(
+    where: LocationFilter
+    sort_by: LocationsSort
+  ): LocationsResp!
+}

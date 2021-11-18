@@ -1,0 +1,7 @@
+type OrderHistory {
+  id: Int!
+  status: OrderStatus!
+  note: String!
+  created_at: Date!
+  updated_at: Date!
+}

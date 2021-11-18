@@ -1,0 +1,12 @@
+type PlatformRule {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  icon: String
+}

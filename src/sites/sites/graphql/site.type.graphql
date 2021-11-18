@@ -1,0 +1,202 @@
+type Url3D {
+  floor: Int!
+  url: String!
+}
+
+type Site {
+  id: Int!
+  name: String
+  name_en: String
+  name_th: String
+  name_jp: String
+  name_kr: String
+  description: String
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  floor: Int
+  is_featured: Boolean!
+  url_3d: [Url3D!]
+  property_type: PlatformPropertyType!
+  provider_type: ProviderType!
+  rules: [PlatformRule!]!
+  agreement: PlatformAgreement
+  stock_management_type: StockManagementType
+  source_site_link: String
+  source_site_name: String
+  host_fees: Float
+  """
+    Distance of site from the queried location in meters. Only available when where.location is
+    provided
+  """
+  distance: Float
+  features: [PlatformFeature!]!
+  policies: [PlatformPolicy!]!
+  address: SiteAddress
+  google_reviews_widget_id: String
+  images: [String!]
+  status: SiteStatus
+  spaces(where: SitesSpacesFilter, sort_by: SitesSpacesSort, pagination: Pagination): SpaceResp!
+  similar_sites: [Site!]!
+  quotation: Quotation
+  created_at: Date!
+  updated_at: Date!
+}
+
+input SitePayload {
+  name: String
+  description: String
+  property_type_id: Int!
+  rules_id: [Int!]!
+  features_id: [Int!]!
+  policies_id: [Int!]!
+  floor: Int
+  provider_type: ProviderType!
+  address: SiteAddressPayload
+}
+
+input UpdateSitePayload {
+  name: String
+  description: String
+  property_type_id: Int
+  rules_id: [Int!]
+  features_id: [Int!]
+  policies_id: [Int!]
+  floor: Int
+  provider_type: ProviderType
+  address: SiteAddressPayload
+  status: SiteStatus
+  images: [String!]
+}
+
+input EntityIdFilter {
+  _eq: Int
+  _in: [Int!]
+}
+
+input UpdateSiteFilter {
+  id: EntityIdFilter!
+}
+
+input StringFilter {
+  _eq: String
+  _like: String
+  _iLike: String
+}
+
+input SiteStatusFilter {
+  _eq: SiteStatus
+  _in: [SiteStatus!]
+}
+
+input StockManagementFilter {
+  _eq: StockManagementType
+  _in: [StockManagementType!]
+}
+
+input PriceFilter {
+  _eq: Float
+  _gt: Float
+  _gte: Float
+  _lt: Float
+  _lte: Float
+}
+
+input NumberFilter {
+  _eq: Float
+}
+
+input SiteLocationFilter {
+  """
+    Distance must be in meters
+  """
+  distance: NumberFilter!
+  longitude: NumberFilter!
+  latitude: NumberFilter!
+}
+
+input SitesFilter {
+  id: EntityIdFilter
+  platform_space_type_id: EntityIdFilter
+  site_platform_feature_id: EntityIdFilter
+  space_platform_feature_id: EntityIdFilter
+  price: PriceFilter
+  name: StringFilter
+  status: SiteStatusFilter
+  stock_management_type: StockManagementFilter
+  country_id: EntityIdFilter
+  country: CountryFilter
+  city_id: EntityIdFilter
+  district_id: EntityIdFilter
+  is_featured: Boolean
+  location: SiteLocationFilter
+  quotation_id: QuotationIdFilter
+}
+
+
+input SiteMoveInDateFilter {
+  _eq: Date
+}
+
+input SiteMoveOutDateFilter {
+  _eq: Date
+}
+
+input AvailableUnitsFilter {
+  _gt: Int
+}
+
+input SitesSort {
+  name: SortBy
+  created_at: SortBy
+}
+
+input SitesSpacesFilter {
+  id: EntityIdFilter
+  type_id: EntityIdFilter
+  feature_id: EntityIdFilter
+  available_units: AvailableUnitsFilter
+  status: SiteStatusFilter
+  price: PriceFilter
+  """
+  To filter out the spaces inside site OR sites if no space available
+  """
+  move_in_date: SiteMoveInDateFilter
+  move_out_date: SiteMoveOutDateFilter
+}
+
+input SitesSpacesSort {
+  price: SortBy
+  size: SortBy
+}
+
+type UpdateSiteResp {
+  edges: [Site!]!
+  modified: Int!
+}
+
+type SpaceResp {
+  page_info: PageInfo!
+  edges: [Space!]!
+}
+
+type SitesResp {
+  page_info: PageInfo!
+  edges: [Site!]!
+}
+
+type Query {
+  sites(
+    pagination: Pagination!
+    where: SitesFilter
+    sort_by: SitesSort
+  ): SitesResp!
+}
+type Mutation {
+  createSite(payload: SitePayload!): Site!
+  updateSite(
+    payload: UpdateSitePayload!
+    where: UpdateSiteFilter!
+  ): UpdateSiteResp!
+}

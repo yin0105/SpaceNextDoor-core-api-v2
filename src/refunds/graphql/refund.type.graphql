@@ -1,0 +1,15 @@
+enum RefundType {
+  REFUND_CANCEL_BOOKING
+  REFUND_DEPOSIT
+  REFUND_UNUSED_DAYS
+}
+
+type Refund {
+  id: Int!
+  refunded_amount: Float!
+  refunded_date: Date!
+  booking: Booking!
+  type: RefundType!
+  created_at: Date
+  updated_at: Date
+}

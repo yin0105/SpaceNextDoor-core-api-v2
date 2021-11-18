@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  next-door-core-api:
+    container_name: next-door-core-api
+    build:
+      context: .
+      dockerfile: ./docker/templates/Dockerfile.local
+    hostname: next-door-api
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      next_door_network:
+    volumes:
+      - .:/app
+      - /app/node_modules
+    entrypoint: []
+    command: npm run start:dev
+  next-door-postgres:
+    image: kartoza/postgis:12.4
+    container_name: next-door-postgres
+    hostname: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: snd
+    volumes:
+      - next-door-postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      next_door_network:
+
+  next-door-pgadmin:
+    container_name: next-door-pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-root@root.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-root}
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - '${PGADMIN_PORT:-5050}:80'
+    networks:
+      next_door_network:
+
+networks:
+  next_door_network:
+
+#
+# Storage Volumes
+#
+volumes:
+  pgadmin:
+  next-door-postgres:
+  next-door-pgadmin:

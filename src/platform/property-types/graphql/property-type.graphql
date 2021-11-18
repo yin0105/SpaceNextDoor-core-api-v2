@@ -1,0 +1,26 @@
+type PlatformPropertyType {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+}
+
+input PropertyTypeSort {
+  name_en: SortBy
+  name_th: SortBy
+  name_jp: SortBy
+  name_kr: SortBy
+}
+
+type PropertyTypeResp {
+  page_info: PageInfo!
+  edges: [PlatformPropertyType!]!
+}
+
+type Query {
+  property_types(
+    pagination: Pagination!
+    sort_by: PropertyTypeSort
+  ): PropertyTypeResp!
+}

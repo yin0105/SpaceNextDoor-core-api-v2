@@ -1,0 +1,311 @@
+type Booking {
+  id: Int!
+  auto_renewal: Boolean!
+  move_in_date: Date!
+  move_out_date: Date
+  customer_phone_number: String
+  short_id: String!
+  commitment_months: Int
+  space_size_unit: SpaceSizeUnit
+  space_size: Float
+  space_height: Float
+  space_width: Float
+  space_length: Float
+  insurance: PlatformInsurance
+  is_insured: Boolean!
+  is_reviewed: Boolean!
+  review_status: ReviewStatus
+  insurance_amount: Float
+  space_price_per_month: Float!
+  currency: String!
+  orders: [Order!]!
+  deposited_amount: Float!
+  is_deposit_refunded: Boolean!
+  deposit_refunded_date: Date
+  status: BookingStatus!
+  currency_sign: String!
+  site_name: String!
+  unit_id: String
+  site_description: String!
+  original_site: Site
+  original_space: Space
+  base_amount: Float!
+  original_base_amount: Float!
+  auth: LoginResult!
+  total_tax_amount: Float!
+  total_amount: Float!
+  discount_amount: Float!
+  cancellation: BookingCancellation
+  sub_total_amount: Float!
+  customer: User!
+  transactions: [Transaction!]!
+  renewals: [Renewal!]!
+  site_address: BookingSiteAddress!
+  site_features: [PlatformFeature!]!
+  space_features: [PlatformFeature!]!
+  history: [BookingHistory!]!
+  termination: Termination
+  is_termination_requested: Boolean
+  payment_schedule: [PaymentScheduleResp!]
+  applied_taxes: [AppliedTax!]
+  created_at: Date!
+  updated_at: Date!
+  quotation_item: QuotationItem
+}
+
+type BookingCancellation {
+  id: Int!
+  refunded_amount: Float!
+  refund_date: Date
+  penalty_percent: Float!
+  cancellation_reason: BookingCancellationReason
+  cancellation_note: String
+}
+
+type BookingPriceChange {
+  id: Int
+  booking_id: String!
+  fromPrice: Float
+  toPrice: Float
+  status: PriceChangeStatus!
+}
+
+input PriceUpdateItem {
+  booking_id: String!
+  price: Float!
+}
+
+input PriceUpdatePayload {
+  data: [PriceUpdateItem!]!
+  review_mode: Boolean
+}
+
+input BookingPayload {
+  name: String!
+  phone_number: String!
+  email: String!
+  auto_renewal: Boolean!
+  site_id: Int!
+  space_id: Int!
+  preferred_language: String
+  move_in_date: Date!
+  move_out_date: Date
+  promo_code: String
+  promotion_id: Int
+  quotation_item_id: Int
+}
+
+input CancelBookingPayload {
+  booking_id: Int!
+  cancellation_reason_id: Int!
+  cancellation_note: String
+}
+
+input UpdateBookingPayload {
+  status: BookingStatus
+  insurance_id: Int
+}
+
+input BookingFilter {
+  id: BookingIdFilter!
+}
+
+input UpdateBookingFilter {
+  id: BookingIdFilter!
+}
+
+input BookingsFilter {
+  status: BookingStatusFilter
+  base_amount: BookingBaseAmountFilter
+  move_in_date: MoveInDateFilter
+  move_out_date: MoveOutDateFilter
+}
+
+input MoveInDateFilter {
+  _gt: Date
+  _lt: Date
+}
+
+input MoveOutDateFilter {
+  _gt: Date
+  _lt: Date
+}
+
+input BookingBaseAmountFilter {
+  _gt: Float
+  _lt: Float
+}
+
+input BookingStatusFilter {
+  _eq: BookingStatus
+  _in: [BookingStatus!]
+}
+
+input BookingIdFilter {
+  _eq: Int
+}
+
+type BookingsResp {
+  page_info: PageInfo!
+  edges: [Booking!]!
+}
+
+type UpdateBookingResp {
+  edges: [Booking!]!
+  modified: Int!
+}
+
+type PriceUpdateResp {
+  edges: [BookingPriceChange!]!
+  modified: Int
+}
+
+input PayBookingPayload {
+  token: String
+  booking_id: Int!
+}
+
+type PayBookingResp {
+  success: Boolean!
+}
+
+input CheckOutPricePayload {
+  move_in_date: Date!
+  move_out_date: Date
+  space_id: Int!
+  insurance_id: Int
+  pick_up_service_id: Int
+  pickup_service_details: PickupServiceDetailsCheckoutPricePayload
+  promo_code: String
+  promotion_id: Int
+  quotation_item_id: Int
+}
+
+input CheckoutLogisticsPickUpLocation {
+  lat: Float!
+  lng: Float!
+}
+
+input PickupServiceDetailsCheckoutPricePayload {
+  schedule_at: Date!
+  pick_up_location: CheckoutLogisticsPickUpLocation!
+  additional_requirements: LogisticsPriceAdditionalRequirements
+}
+
+type CheckoutAppliedTax {
+  id: Int!
+  name_en: String!
+  name_th: String
+  name_jp: String
+  name_kr: String
+  type: TaxType!
+  value: Float!
+  entity_type: TaxEntityType!
+  amount: Float!
+}
+
+type CheckOutPriceResp {
+  insurance_price: Float
+  sub_total_amount: Float
+  service_price: Float
+  deposit_amount: Float
+  payable_amount: Float!
+  applied_promotion: Promotion
+  """
+  In case public promotion is applied OR will apply in future renewals indexes
+  """
+  public_promotion: Promotion
+  discounted_amount: Float
+  promotion_error: String
+  currency_sign: String
+  total_tax: Float!
+  applied_taxes: [CheckoutAppliedTax!]!
+}
+
+type BookingCancellationReason {
+  id: Int!
+  description_en: String
+  description_th: String
+  description_kr: String
+  description_jp: String
+}
+
+type BookingCancellationReasonsResp {
+  edges: [BookingCancellationReason!]!
+}
+
+type CancelBookingResponse {
+  id: Int!
+  refunded_amount: Float!
+  penalty_applied: Boolean!
+  penalty_percent: Float!
+}
+
+input ChangeBookingUnitPayload {
+  short_id: String!
+  new_space_id: Int!
+  """
+  If apply_immidiately is False, then this unit changes will apply from next renewal
+  Otherwise it will apply from tomorrow - Means refudn unused days and charge unused days with new space price
+  """
+  apply_immidiately: Boolean!
+  """
+  This flag can be used(if false) to see if given promo_code and id are applying or not
+  promotion id cannot be applied in case move out date isn't following min promo period
+  """
+  apply: Boolean!
+}
+
+type ChangeBookingUnitResp {
+  is_changed: Boolean!
+  deposit_refunded_amount: Float!
+  deposit_charged_amount: Float!
+  refunded_unused_days: Float!
+  charged_unused_days: Float!
+  message: String!
+  details: JSON
+}
+
+input AddPromotionsToBookingPayload {
+  short_id: String!
+
+  """
+  At least one of promo_code and promotion_id is required
+  """
+  promo_code: String
+  """
+  Public promotin ID
+  """
+  promotion_id: Int
+  """
+  This flag can be used(if false) to see if given promo_code and id are applying or not
+  promotion id cannot be applied in case move out date isn't following min promo period
+  """
+  apply: Boolean!
+}
+
+type AddPromotionsToBookingResp {
+  is_applied: Boolean!
+  message: String!
+  details: JSON
+}
+
+type Query {
+  booking(where: BookingFilter!): Booking!
+  bookings(pagination: Pagination!, where: BookingsFilter): BookingsResp!
+  cancellation_reasons: BookingCancellationReasonsResp!
+}
+
+type Mutation {
+  createBooking(payload: BookingPayload!): Booking!
+  updateBooking(
+    payload: UpdateBookingPayload!
+    where: UpdateBookingFilter!
+  ): UpdateBookingResp!
+  updateBookingPrice(payload: PriceUpdatePayload!): PriceUpdateResp
+  payBooking(payload: PayBookingPayload!): PayBookingResp!
+  cancelBooking(payload: CancelBookingPayload!): CancelBookingResponse!
+  calculateCheckOutPrice(payload: CheckOutPricePayload!): CheckOutPriceResp!
+  changeBookingUnit(payload: ChangeBookingUnitPayload!): ChangeBookingUnitResp!
+  addPromotionsToBooking(payload: AddPromotionsToBookingPayload!): AddPromotionsToBookingResp!
+}

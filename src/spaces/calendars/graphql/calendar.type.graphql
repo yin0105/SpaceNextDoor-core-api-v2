@@ -1,0 +1,6 @@
+type Calendar {
+  id: Int!
+  space: Space!
+  start_date: Date!
+  end_date: Date!
+}

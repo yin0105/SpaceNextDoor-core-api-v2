@@ -1,0 +1,64 @@
+enum PlatformFeatureType {
+  SITE
+  SPACE
+  SPACE_TYPE
+}
+
+type PlatformFeatureCategory {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  features: [PlatformFeature!]!
+}
+
+type PlatformFeature {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  icon: String
+  type: PlatformFeatureType!
+  category: PlatformFeatureCategory!
+  is_active: Boolean!
+}
+
+input FeatureCategorySort {
+  name_en: SortBy
+  name_th: SortBy
+  name_jp: SortBy
+  name_kr: SortBy
+}
+
+input PlatformFeatureTypeFilter {
+  _eq: PlatformFeatureType
+  _in: [PlatformFeatureType!]
+}
+
+input PlatformFeatureIsActiveFilter {
+  _eq: Boolean!
+}
+
+input FeatureCategoryFilter {
+  type: PlatformFeatureTypeFilter
+  is_active: PlatformFeatureIsActiveFilter
+}
+
+type FeatureCategoryResp {
+  page_info: PageInfo!
+  edges: [PlatformFeatureCategory!]!
+}
+
+type Query {
+  feature_categories(
+    pagination: Pagination!
+    where: FeatureCategoryFilter
+    sort_by: FeatureCategorySort
+  ): FeatureCategoryResp!
+}

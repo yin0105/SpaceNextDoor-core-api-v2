@@ -1,0 +1,38 @@
+type PlatformBank {
+  id: Int!
+  name: String!
+  address: String
+  is_active: Boolean!
+  created_at: Date!
+  updated_at: Date!
+}
+
+input PlatformBankIdFilter {
+  _eq: Int!
+}
+
+input PlatformBankIsActiveFilter {
+  _eq: Boolean!
+}
+
+input BanksFilter {
+  country_id: PlatformBankIdFilter
+  is_active: PlatformBankIsActiveFilter
+}
+
+type BanksResp {
+  page_info: PageInfo!
+  edges: [PlatformBank!]!
+}
+
+input BanksSort {
+  name: SortBy
+}
+
+type Query {
+  banks(
+    pagination: Pagination!
+    where: BanksFilter
+    sort_by: BanksSort
+  ): BanksResp!
+}

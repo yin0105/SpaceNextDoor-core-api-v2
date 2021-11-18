@@ -1,0 +1,12 @@
+type PlatformAgreement {
+  id: Int!
+  title_en: String!
+  title_th: String!
+  title_jp: String!
+  title_kr: String!
+  content_en: String!
+  content_th: String!
+  content_jp: String!
+  content_kr: String!
+  is_default: Boolean!
+}

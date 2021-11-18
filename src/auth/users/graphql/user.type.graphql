@@ -1,0 +1,48 @@
+type User {
+  id: Int!
+  customer_id: Int
+  provider_id: Int
+  first_name: String
+  last_name: String
+  email: String
+  stripe_customer_id: String
+  phone_number: String
+  image_url: String
+  preferred_language: String
+  is_email_verified: Boolean
+  is_phone_verified: Boolean
+  facebook_user_id: String
+  google_user_id: String
+  provider: Provider
+  customer: Customer
+  created_at: Date!
+  updated_at: Date!
+}
+
+input ProviderUpdateBankPayload {
+  bank_id: Int!
+  bank_account_number: String!
+  bank_account_holder_name: String
+}
+
+input UpdateProfilePayload {
+  first_name: String
+  last_name: String
+  email:String
+  customer_card_token: String
+  preferred_language: String
+  provider_bank: ProviderUpdateBankPayload
+}
+
+type UpdateProfileResp {
+  edges: [User!]!
+  modified: Int!
+}
+
+type Query {
+  profile: User! 
+}
+
+type Mutation {
+  updateProfile(payload: UpdateProfilePayload!): UpdateProfileResp!
+}

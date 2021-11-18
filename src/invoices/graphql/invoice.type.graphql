@@ -1,0 +1,47 @@
+type CustomerInvoice {
+  start_date: Date
+  end_date: Date
+  issue_date: Date
+  transaction_short_id: String
+  invoice_id: String
+  deposit_amount: Float
+  total_amount: Float
+  paid_amount: Float
+  items: [InvoiceItems!]!
+  sub_total_amount: Float
+  discount_amount: Float
+  tax_amount: Float
+  customer: CustomerDetails
+  currency_sign: String!
+  payment_schedule: [PaymentScheduleResp!]
+  applied_taxes: [AppliedTax!]
+}
+
+type CustomerDetails {
+  name: String
+  phone_number: String
+  email: String
+  card_last_digits: String
+  card_brand_name: String
+}
+
+type InvoiceItems {
+  name: String!
+  amount: Float!
+  qty: Int
+  discount: Float
+  currency: String!
+  currency_sign: String!
+}
+
+input TransactionIdFilter {
+  _eq: Int
+}
+
+input CustomerInvoiceFilter {
+  transaction_id: TransactionIdFilter
+}
+
+type Query {
+  customer_invoice(where: CustomerInvoiceFilter! ): CustomerInvoice!
+}

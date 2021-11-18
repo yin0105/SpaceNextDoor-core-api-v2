@@ -1,0 +1,24 @@
+type BookingSiteAddress {
+  id: Int!
+  lat: Float!
+  lng: Float!
+  country: Country
+  city: City
+  district: District
+  postal_code: String!
+  street: String!
+  flat: String
+  created_at: Date!
+  updated_at: Date!
+}
+
+input BookingSiteAddressPayload {
+  lat: Float!
+  lng: Float!
+  country_id: Int!
+  city_id: Int!
+  district_id: Int!
+  street: String!
+  flat: String
+  postal_code: String!
+}

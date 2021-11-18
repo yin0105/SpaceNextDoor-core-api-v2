@@ -1,0 +1,16 @@
+enum SpaceCategoryItemSizeUnit {
+  cm
+}
+
+type PlatformSpaceCategoryItem {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  height: Int!
+  width: Int!
+  dimension: Int!
+  unit: SpaceCategoryItemSizeUnit!
+  icon: String
+}

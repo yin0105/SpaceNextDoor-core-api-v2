@@ -1,0 +1,65 @@
+type Mutation {
+  sendOTP(payload: SendOTPPayload!): SendOTPResult! 
+  login(payload: LoginPayload!): LoginResult!
+  refreshToken(payload: RefreshTokenPayload!): LoginResult!
+  loginAdminAsUser(payload: LoginAdminAsUserPayload!): LoginResult!
+  loginWithSocial(payload: LoginWithSocialPayload! ): LoginResult!
+}
+
+input RefreshTokenPayload {
+  refresh_token: String!
+  access_token: String!
+}
+
+enum LoginProvider {
+  FACEBOOK,
+  GOOGLE,
+}
+
+input LoginWithSocialPayload {
+  type: LoginProvider!
+  token: String!
+  preferred_language: String
+}
+
+input RefreshTokenPayload {
+  refresh_token: String!
+  access_token: String!
+}
+
+input LoginPayload {
+  """
+  Username can be email or phone number. If phone number, it should have country code prefixed.
+  e.g +66640359454
+  """
+  username: String!
+  otp: String!
+  preferred_language: String
+}
+
+input LoginAdminAsUserPayload {
+  user_id: Int!
+}
+
+input SendOTPPayload {
+  """
+  Username can be email or phone number. If phone number, it should have country code prefixed.
+  e.g +66640359454
+  """
+  username: String!
+}
+
+type SendOTPResult {
+  isSent: Boolean!
+}
+
+enum LoginTokenType {
+  BEARER
+}
+
+type LoginResult {
+  access_token: String!
+  refresh_token: String!
+  token_type: LoginTokenType!
+  expires_at: String!
+}

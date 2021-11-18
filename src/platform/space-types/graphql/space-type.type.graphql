@@ -1,0 +1,58 @@
+type PlatformSpaceType {
+  id: Int!
+  size_from: Float!
+  size_to: Float!
+  unit: SpaceSizeUnit!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  image: String
+  icon: String
+  slug: String
+  size: Float!
+  country: Country!  
+  spaces(where: SpacesByTypeFilter!, sort_by: SitesSpacesSort): SpaceResp
+  features: [PlatformFeature!]
+}
+
+input SpaceTypeSizeFilter {
+  _eq: Int
+}
+
+input SpaceTypeSizeUnitFilter {
+  _eq: SpaceSizeUnit
+}
+input DistrictIdFilter {
+  _in: [Int!]
+}
+
+input SpaceTypesFilter {
+  """
+  This value should lies in between size_from and size_to
+  """
+  size: SpaceTypeSizeFilter
+  country: CountryFilter  
+  unit: SpaceTypeSizeUnitFilter
+  
+}
+input SpacesByTypeFilter {
+  district_ids: DistrictIdFilter
+  site_id: EntityIdFilter
+}
+
+type PlatformSpaceTypeResp {
+  page_info: PageInfo!
+  edges: [PlatformSpaceType!]!
+}
+
+type Query {
+  space_types(
+    pagination: Pagination!
+    where: SpaceTypesFilter
+  ): PlatformSpaceTypeResp!
+}

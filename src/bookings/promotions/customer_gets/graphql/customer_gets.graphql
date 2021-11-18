@@ -1,0 +1,26 @@
+enum PromotionForType {
+  FIRST_MONTHS
+  LAST_MONTHS
+  RENEWAL_INDEX
+}
+
+type CustomerGets {
+  id: Int!
+  type: PromotionType!
+  value: Float!
+  for_type: PromotionForType!
+  for_value: Float!
+  max_amount_per_booking: Float
+}
+
+input CustomerGetsInput {
+  """
+  ID required in case of updating the existing one
+  """
+  id: Int
+  type: PromotionType!
+  value: Float!
+  for_type: PromotionForType!
+  for_value: Float!
+  max_amount_per_booking: Float
+}

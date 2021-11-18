@@ -1,0 +1,13 @@
+enum ServiceType {
+  PICK_UP
+}
+
+enum ServiceStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ServiceFrequency {
+  RECURRING,
+  ONE_TIME
+}

@@ -1,0 +1,21 @@
+type PlatformSpaceCategory {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  icon: String!
+  items: [PlatformSpaceCategoryItem!]!
+}
+
+type PlatformSpaceCategoryResp {
+  page_info: PageInfo!
+  edges: [PlatformSpaceCategory!]!
+}
+
+type Query {
+  space_categories(
+    pagination: Pagination!
+  ): PlatformSpaceCategoryResp!
+}
+

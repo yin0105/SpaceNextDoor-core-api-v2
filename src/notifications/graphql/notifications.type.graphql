@@ -1,0 +1,50 @@
+enum NotificationType {
+  EMAIL
+  SMS
+}
+
+input SendNotificationPayload {
+  type: NotificationType!
+  """
+  Required if Type is SMS
+  """
+  sms_text: String
+
+  """
+  Required if type is EMAIL and custom message is null or not provided
+  """
+  template_id: String
+  """
+  JSON stringify object, to populate on email template
+  """
+  template_body: JSON
+  """
+  Required if template_id is null or not provided
+  """
+  email_custom_message: String
+  email_subject: String
+}
+
+input UsernameFilter {
+  _eq: String
+  _in: [String!]
+}
+
+input SendNotificationFilter {
+  """
+  Username can be email or phone number depending upon NotificationType. If phone number, it should have country code prefixed.
+  e.g +66123456789
+  """
+  username: UsernameFilter!
+}
+
+type NotificationResult {
+  isSent: Boolean!
+}
+
+type Mutation {
+  sendNotification(
+    payload: SendNotificationPayload!
+    where: SendNotificationFilter!
+  ): NotificationResult!
+}

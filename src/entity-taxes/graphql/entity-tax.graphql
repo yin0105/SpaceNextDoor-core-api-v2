@@ -1,0 +1,9 @@
+type EntityTax {
+  id: Int!
+  tax: PlatformTax!
+  site: Site
+  service: PlatformService
+  insurance: PlatformInsurance
+  created_at: Date!
+  updated_at: Date!
+}

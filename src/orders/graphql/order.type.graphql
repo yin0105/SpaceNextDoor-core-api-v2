@@ -1,0 +1,54 @@
+type Order {
+  id: Int!
+  short_id: String!
+  customer: User!
+  booking: Booking!
+  currency: String!
+  status: OrderStatus!
+  order_pick_up_service: OrderPickUpService
+  total_amount: Float!
+  created_at: Date!
+  updated_at: Date!
+  last_status_at: Date
+}
+
+type Driver {
+  name: String
+  phone: String
+}
+
+input PickUpServiceDetails {
+  address: String!
+  lat: Float!
+  lng: Float!
+  pickup_time: Date!
+  service_id: Int!
+  additional_requirements: LogisticsPriceAdditionalRequirements
+}
+
+input OrderPayload {
+  booking_id: Int!
+  pickup_service_details: PickUpServiceDetails!
+}
+
+input PayOrderPayload {
+  order_id: Int!
+}
+
+input CancelOrderPayload {
+  order_id: Int!
+}
+
+type PayOrderResp {
+  success: Boolean!
+}
+
+type CancelOrderResp {
+  success: Boolean!
+}
+
+type Mutation {
+  createOrder(payload: OrderPayload! ): Order!
+  payOrder(payload: PayOrderPayload!): PayOrderResp!
+  cancelOrder(payload: CancelOrderPayload!): CancelOrderResp!
+}

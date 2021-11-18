@@ -1,0 +1,71 @@
+enum DoorActionType {
+  OPEN
+  CLOSE
+}
+
+type SiteDoorHistory {
+  id: Int!
+  site_door_id: Int!
+  action: DoorActionType!
+  user_ip: String
+  user_agent: String
+  user_device: String
+  platform: String
+  created_at: Date!
+}
+
+type SiteDoor {
+  id: Int!
+  name: String!
+  description: String
+  provider_id: String!
+  door_id: String!
+  created_at: Date!
+  updated_at: Date!
+  history: [SiteDoorHistory!]!
+}
+
+input OpenDoorIdFilter {
+  _eq: Int!
+}
+
+input OpenDoorStrFilter {
+  _eq: String!
+}
+
+input SiteDoorsFilter {
+  booking_id: IdFilter!
+}
+
+input SiteDoorsSort {
+  name: SortBy
+}
+
+type SiteDoorsResp {
+  page_info: PageInfo!
+  edges: [SiteDoor!]!
+}
+
+input OpenSiteDoorWhere {
+  door_id: OpenDoorStrFilter!
+  provider_id: OpenDoorStrFilter!
+  booking_id: OpenDoorIdFilter
+}
+
+type OpenSiteDoorResp {
+  is_open: Boolean!
+  status: String
+  message: String
+}
+
+type Query {
+  site_doors(
+    pagination: Pagination!
+    where: SiteDoorsFilter!
+    sort_by: SiteDoorsSort
+  ): SiteDoorsResp!
+}
+
+type Mutation {
+  openSiteDoor(where: OpenSiteDoorWhere!): OpenSiteDoorResp!
+}

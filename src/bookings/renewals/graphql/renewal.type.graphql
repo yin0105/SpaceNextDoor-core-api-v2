@@ -1,0 +1,51 @@
+type Renewal {
+  id: Int!
+  type: RenewalType!
+  status: RenewalStatus!
+  next_renewal_date: Date
+  renewal_start_date: Date!
+  renewal_end_date: Date!
+  renewal_paid_date: Date
+  last_attempt_date: Date
+  base_amount: Float!
+  deposit_amount: Float
+  insurance_amount: Float
+  total_amount: Float!
+  discount_amount: Float!
+  sub_total_amount: Float!
+  total_tax_amount: Float!
+  next_renewal_sub_total: Float
+  next_renewal_total: Float
+  next_renewal_discount: Float
+  booking: Booking!
+  created_at: Date!
+  updated_at: Date!
+}
+
+input PaymentSchedulePayload {
+  move_in_date: Date!
+  move_out_date: Date
+  space_id: Int!
+  insurance_id: Int
+  pick_up_service_id: Int
+  promo_code: String
+  promotion_id: Int
+  quotation_item_id: Int
+}
+
+type PaymentScheduleResp {
+  from_date: Date!
+  to_date: Date!
+  total_amount: Float!
+  insurance_price: Float
+  sub_total_amount: Float
+  service_price: Float
+  deposit_amount: Float
+  applied_promotion: Promotion
+  discounted_amount: Float
+  currency_sign: String
+}
+
+type Mutation {
+  paymentSchedule(payload: PaymentSchedulePayload!): [PaymentScheduleResp!]!
+}

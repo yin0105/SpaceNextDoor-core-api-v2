@@ -1,0 +1,128 @@
+enum PromotionType {
+  TOTAL_AMOUNT
+  PERCENTAGE_DISCOUNT
+  FIXED_AMOUNT_DISCOUNT
+}
+
+enum PromotionFormat {
+  PUBLIC
+  VOUCHER
+  CODE
+}
+
+enum PromotionStatus {
+  DRAFT
+  ACTIVE
+  FINISH
+  IN_ACTIVE
+}
+
+type Promotion {
+  id: Int!
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  format: PromotionFormat!
+  status: PromotionStatus!
+  code: String
+  start_date: Date!
+  end_date: Date
+  max: Int
+  max_per_day: Int
+  max_per_customer: Int
+  """
+  It means this promotion can be applied with other promotions as well
+  If False, then only `allow_double_discount: false` promotion will be applied at a time
+  """
+  allow_double_discount: Boolean
+  customer_buys: [CustomerBuys!]!
+  customer_gets: [CustomerGets!]!
+}
+
+input PromotionInput {
+  name_en: String!
+  name_th: String!
+  name_jp: String!
+  name_kr: String!
+  description_en: String
+  description_th: String
+  description_jp: String
+  description_kr: String
+  format: PromotionFormat!
+  status: PromotionStatus
+  code: String
+  start_date: Date!
+  end_date: Date!
+  max: Int
+  max_per_day: Int
+  max_per_customer: Int
+  customer_buys: CustomerBuysInput
+  customer_gets: [CustomerGetsInput!]
+}
+
+input ApplyPromotionInput {
+  code: String!
+  space_id: Int!
+  move_in_date: Date!
+  move_out_date: Date
+}
+
+input PromotionIntFilter {
+  _eq: Int
+}
+
+input PromotionFormatFilter {
+  _eq: PromotionFormat
+}
+
+input PromotionStatusFilter {
+  _eq: PromotionStatus
+}
+
+input PromotionFilter {
+  id: PromotionIntFilter
+}
+
+input PromotionsFilter {
+  id: PromotionIntFilter
+  format: PromotionFormatFilter
+  status: PromotionStatusFilter
+  site_id: PromotionIntFilter
+}
+
+input PromotionsSort {
+  name: SortBy
+  created_at: SortBy
+}
+
+type PromotionsResp {
+  edges: [Promotion!]!
+  page_info: PageInfo!
+}
+
+type ApplyPromotionResponse {
+  promotion: Promotion
+  price_per_month: Float!
+  total: Float!
+  discounted_amount: Float!
+  total_after_discount: Float!
+}
+
+type Query {
+  promotions(
+    pagination: Pagination!
+    where: PromotionsFilter
+    sort_by: PromotionsSort
+  ): PromotionsResp!
+}
+
+type Mutation {
+  createPromotion(payload: PromotionInput!): Promotion!
+  updatePromotion(payload: PromotionInput!, where: PromotionFilter!): Promotion!
+  applyPromotion(payload: ApplyPromotionInput!): ApplyPromotionResponse!
+}

@@ -1,0 +1,15 @@
+enum BookingStatus {
+  RESERVED,
+  CONFIRMED, 
+  ACTIVE, 
+  TERMINATED, 
+  COMPLETED,
+  CANCELLED
+}
+
+enum PriceChangeStatus {
+  PRICE_CHANGED,
+  BOOKING_NOT_FOUND,
+  NO_PRICE_CHANGE,
+  INVALID_PRICE,
+}

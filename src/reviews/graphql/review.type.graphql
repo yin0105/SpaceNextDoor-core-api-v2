@@ -1,0 +1,66 @@
+type Review {
+  id: Int!
+  content: String!
+  title: String!
+  rating: Float!
+  created_at: Date!
+  user: ReviewUser
+}
+
+type ReviewsPageInfo {
+  limit: Int!
+  page: Int!
+  total: Int!
+  has_more: Boolean
+}
+
+type ReviewsResp {
+  page_info: ReviewsPageInfo!
+  edges: [Review!]!
+  """
+    Note: rating_info will only be present IF product_id filter is applied.
+  """
+  rating_info: ReviewRatingInfo
+}
+
+type ReviewUser {
+  name: String
+}
+
+type ReviewRatingInfo {
+  average_rating: Float! 
+  total: Int!
+}
+
+input CreateReviewPayload {
+  booking_id: Int!
+  content: String!
+  title: String!
+  rating: Float!
+}
+
+input ReviewsIntFilter {
+  _eq: Int
+}
+
+input ReviewsWhereFilterInput {
+  rating: ReviewsIntFilter
+  site_id: ReviewsIntFilter
+}
+
+input ReviewsPaginationInput {
+  page: Int!
+  limit: Int!
+}
+
+type Mutation {
+  createReview(payload: CreateReviewPayload!): Boolean!
+}
+
+type Query {
+  reviews(pagination: ReviewsPaginationInput!, where: ReviewsWhereFilterInput): ReviewsResp!
+}
+
+extend type Site {
+  reviews: ReviewRatingInfo!
+}

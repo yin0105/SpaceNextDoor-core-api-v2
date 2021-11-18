@@ -1,0 +1,37 @@
+input LogisticsPricePayload {
+  space_id: Int!
+  service_id: Int!
+  schedule_at: Date!
+  pick_up: LogisticsPickUpLocation!
+  additional_requirements: LogisticsPriceAdditionalRequirements
+}
+
+input LogisticsPriceAdditionalRequirements {
+  mover_count: Int
+}
+
+input LogisticsPickUpLocation {
+  lat: Float!
+  lng: Float!
+}
+
+type LogisticsPriceResp {
+  vehicle_type: VehicleType
+  estimated_price: LogisticsEstimatedPrice!
+  estimated_price_breakdown: [LogisticsEstimatedPriceBreakDown]
+}
+
+type LogisticsEstimatedPrice {
+  amount: Float!
+  currency: String!
+}
+
+type LogisticsEstimatedPriceBreakDown {
+  key: String!
+  amount: Float!
+  quantity: Int
+}
+
+type Mutation {
+  calculateLogisticsPrice(payload: LogisticsPricePayload!): LogisticsPriceResp!
+}

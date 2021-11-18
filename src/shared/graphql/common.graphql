@@ -1,0 +1,58 @@
+scalar date
+scalar Date
+scalar JSON
+scalar JSONObject
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+type PageInfo {
+  limit: Int!
+  skip: Int!
+  total: Int!
+  has_more: Boolean
+}
+
+input Pagination {
+  limit: Int!
+  skip: Int!
+}
+
+input NumberOperators {
+    _eq: Float
+    _lt: Float
+    _lte: Float
+    _gt: Float
+    _gte: Float
+    _in: [Float]
+}
+
+input StringOperators {
+    _eq: String
+    _contains: String
+}
+
+type DeleteResult {
+  total_deleted: Int!
+}
+
+enum SortBy {
+    asc
+    desc
+}
+
+input IdFilter {
+  _eq: Int
+  _in: [Int!]
+}
+
+input FromDateFilter {
+  _gt: Date
+  _lt: Date
+}
+
+input ToDateFilter {
+  _gt: Date
+  _lt: Date
+}

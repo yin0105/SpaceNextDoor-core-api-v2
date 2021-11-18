@@ -1,0 +1,65 @@
+enum QuotationStatus {
+  ACCEPTED
+  REJECTED
+  ACTIVE
+}
+
+type QuotationItem {
+  id: Int!
+  site: Site!
+  space: Space!
+  price_per_month: Float
+  quotation: Quotation
+}
+
+type Quotation {
+  id: Int!
+  uuid: String!
+  status: QuotationStatus!
+  move_in_date: Date!
+  promotion: Promotion
+  public_promotion: Promotion
+  created_at: Date!
+  user:User!
+  items: [QuotationItem]!
+}
+
+input QuotationIdFilter {
+  _eq: String
+}
+
+input QuotationPayload {
+  move_in_date: Date!
+  move_out_date: Date
+  first_name: String!
+  last_name: String!
+  phone_number: String!
+  email: String!
+  preferred_language: String!
+  promo_code: String
+  promotion_id: Int
+  """
+  If only site_id is present and client don't send space_type_id
+  Then this API will send quotation for any 3 spaces of any sizes with min prices of this site.
+  If client send space_type_id as well, then it will find only 3 spaces for that specific size type
+  """
+  site_id: Int
+  space_id: Int
+
+  """
+  If client want to send quotation based on district IDs, then
+  it MUST also send the space type chosen by customer,
+  with available spaces of those districts
+  """
+  district_ids: [Int!]
+
+  space_type_id: Int
+}
+
+type QuotationResp {
+  success: Boolean!
+}
+
+type Mutation {
+  createQuotation(payload: QuotationPayload!): QuotationResp!
+}
